@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atendimento no Tráfego Pago — Lidiane Coser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0B0C10;
+    --sidebar:   #0F1117;
+    --border:    #1E2130;
+    --accent:    #C8964A;
+    --accent2:   #6DBFA8;
+    --text:      #EDEAE3;
+    --subtle:    #636880;
+    --card:      #14161F;
+    --serif:     'Cormorant Garamond', serif;
+    --sans:      'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100vh; overflow: hidden; background: var(--bg); color: var(--text); font-family: var(--sans); }
+
+  .app {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── SIDEBAR ── */
+  aside.sidebar {
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  .sb-header {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sb-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .sb-logo {
+    width: 38px; height: 38px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 20px;
+    font-weight: 700;
+    color: #0B0C10;
+    flex-shrink: 0;
+  }
+  .sb-title {
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.2;
+    font-weight: 600;
+  }
+  .sb-title em { color: var(--accent); font-style: italic; }
+  .sb-sub {
+    font-size: 11px;
+    color: var(--subtle);
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+  }
+
+  .sb-progress {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .prog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .prog-label {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--subtle);
+    font-weight: 600;
+  }
+  .prog-pct {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .prog-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .prog-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 8%;
+  }
+
+  .sb-nav-label {
+    padding: 14px 20px 6px;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--subtle);
+    font-weight: 600;
+  }
+
+  ul.nav-list {
+    list-style: none;
+    overflow-y: auto;
+    flex: 1;
+    padding-bottom: 12px;
+  }
+  ul.nav-list::-webkit-scrollbar { width: 3px; }
+  ul.nav-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .nav-item {
+    display: grid;
+    grid-template-columns: 32px 1fr 42px;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px 10px 14px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav-item:hover { background: rgba(200,150,74,0.06); }
+  .nav-item.active {
+    background: rgba(200,150,74,0.10);
+    border-left-color: var(--accent);
+  }
+  .nav-num {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--subtle);
+    text-align: center;
+  }
+  .nav-item.active .nav-num { color: var(--accent); }
+  .nav-text {
+    font-size: 12px;
+    line-height: 1.3;
+    color: var(--text);
+    opacity: 0.7;
+  }
+  .nav-item.active .nav-text { opacity: 1; font-weight: 500; }
+  .nav-time {
+    font-size: 10px;
+    color: var(--subtle);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .sb-footer {
+    padding: 12px 20px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--subtle);
+    text-align: center;
+  }
+
+  /* ── MAIN CONTENT ── */
+  main.content {
+    overflow: hidden;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(40px, 5vw, 80px) clamp(48px, 6vw, 96px);
+    height: 100vh;
+    position: relative;
+  }
+  .slide.active { display: flex; }
+
+  .slide-label {
+    font-size: clamp(10px, 1vw, 13px);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .slide-title {
+    font-family: var(--serif);
+    font-size: clamp(44px, 5.5vw, 84px);
+    line-height: 1.05;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 28px;
+  }
+  .slide-title em { color: var(--accent); font-style: italic; }
+  .slide-title .accent2 { color: var(--accent2); }
+
+  .slide-body {
+    font-size: clamp(16px, 1.6vw, 22px);
+    line-height: 1.65;
+    color: rgba(237,234,227,0.75);
+    max-width: 860px;
+  }
+
+  /* Bullets */
+  .bullets { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .bullets li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: clamp(15px, 1.5vw, 20px);
+    line-height: 1.5;
+    color: rgba(237,234,227,0.85);
+  }
+  .bullets li::before {
+    content: "▸";
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 0.9em;
+  }
+  .bullets li strong { color: var(--text); }
+
+  /* Cards 2-col */
+  .cards2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 4px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: clamp(20px, 2vw, 32px);
+  }
+  .card-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .card-label.bad { color: #E07070; }
+  .card-label.good { color: var(--accent2); }
+  .card h4 {
+    font-family: var(--serif);
+    font-size: clamp(18px, 2vw, 26px);
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .card p, .card li {
+    font-size: clamp(13px, 1.3vw, 17px);
+    line-height: 1.55;
+    color: rgba(237,234,227,0.7);
+  }
+  .card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .card ul li::before { content: "·  "; color: var(--accent); }
+
+  /* Steps numbered */
+  .steps { display: flex; flex-direction: column; gap: 16px; }
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .step-num {
+    font-family: var(--serif);
+    font-size: clamp(28px, 3vw, 44px);
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 50px;
+    text-align: right;
+  }
+  .step-content h4 {
+    font-size: clamp(15px, 1.5vw, 20px);
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .step-content p {
+    font-size: clamp(13px, 1.2vw, 16px);
+    color: rgba(237,234,227,0.65);
+    line-height: 1.5;
+  }
+
+  /* Quote big */
+  .quote-big {
+    font-family: var(--serif);
+    font-size: clamp(32px, 4vw, 60px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--text);
+    border-left: 4px solid var(--accent);
+    padding-left: 28px;
+    margin-bottom: 20px;
+  }
+  .quote-big em { color: var(--accent); font-style: italic; }
+
+  /* Tag highlight */
+  .tag {
+    display: inline-block;
+    background: rgba(200,150,74,0.15);
+    border: 1px solid rgba(200,150,74,0.3);
+    color: var(--accent);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  /* Criativo box */
+  .criativo-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    border-radius: 0 0 12px 12px;
+    padding: clamp(18px, 2vw, 28px);
+    margin-bottom: 16px;
+  }
+  .criativo-box h4 {
+    font-family: var(--serif);
+    font-size: clamp(18px, 1.8vw, 24px);
+    color: var(--accent);
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .criativo-box ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .criativo-box li {
+    font-size: clamp(13px, 1.3vw, 17px);
+    color: rgba(237,234,227,0.75);
+    line-height: 1.5;
+  }
+  .criativo-box li::before { content: "→  "; color: var(--accent2); }
+
+  /* Remarketing flow */
+  .remark-flow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .remark-step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-size: clamp(12px, 1.2vw, 15px);
+    text-align: center;
+    min-width: 120px;
+  }
+  .remark-step strong { display: block; color: var(--accent2); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; }
+  .remark-arrow { color: var(--accent); font-size: 20px; flex-shrink: 0; }
+
+  /* Navigation buttons */
+  .slide-nav {
+    position: absolute;
+    bottom: 28px;
+    right: clamp(48px, 6vw, 96px);
+    display: flex;
+    gap: 12px;
+  }
+  .btn-nav {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--subtle);
+    font-family: var(--sans);
+    font-size: 13px;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .btn-nav:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-nav.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0B0C10;
+    font-weight: 600;
+  }
+  .btn-nav.primary:hover { opacity: 0.85; }
+
+  /* Ergonograma visual */
+  .ergono {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 4px;
+  }
+  .ergono-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+  }
+  .ergono-block {
+    flex: 1;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    font-size: clamp(12px, 1.1vw, 15px);
+    line-height: 1.4;
+  }
+  .ergono-block .num {
+    font-family: var(--serif);
+    font-size: clamp(20px, 2vw, 30px);
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .ergono-block strong { display: block; color: var(--text); margin-bottom: 2px; font-size: clamp(12px, 1.1vw, 14px); }
+  .ergono-block p { color: rgba(237,234,227,0.6); font-size: clamp(11px, 1vw, 13px); }
+  .e-bg1 { background: rgba(200,150,74,0.08); }
+  .e-bg2 { background: rgba(109,191,168,0.08); }
+  .e-bg3 { background: rgba(200,150,74,0.05); }
+  .e-bg4 { background: rgba(109,191,168,0.05); }
+  .e-bg5 { background: rgba(200,150,74,0.10); border-top: 2px solid var(--accent); }
+
+  /* Highlight pill */
+  .pill {
+    display: inline-block;
+    background: rgba(109,191,168,0.15);
+    border: 1px solid rgba(109,191,168,0.3);
+    color: var(--accent2);
+    font-size: 11px;
+    padding: 2px 10px;
+    border-radius: 12px;
+    margin-left: 6px;
+    font-weight: 600;
+  }
+
+  /* Anchor frame */
+  .anchor-frame {
+    background: linear-gradient(135deg, rgba(200,150,74,0.08) 0%, rgba(109,191,168,0.08) 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: clamp(24px, 3vw, 44px);
+    margin-top: 8px;
+  }
+
+  /* Grid 3 */
+  .grid3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 8px;
+  }
+  .g3card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .g3card .icon { font-size: 24px; margin-bottom: 8px; }
+  .g3card h5 {
+    font-family: var(--serif);
+    font-size: clamp(14px, 1.4vw, 18px);
+    color: var(--accent);
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .g3card p { font-size: clamp(12px, 1.1vw, 14px); color: rgba(237,234,227,0.65); line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ═══════════ SIDEBAR ═══════════ -->
+  <aside class="sidebar">
+    <div class="sb-header">
+      <div class="sb-brand">
+        <div class="sb-logo">L</div>
+        <div>
+          <div class="sb-title">Atendimento no<br><em>Tráfego Pago</em></div>
+        </div>
+      </div>
+      <div class="sb-sub">— Aula Ao Vivo · Lidiane Coser</div>
+    </div>
+
+    <div class="sb-progress">
+      <div class="prog-header">
+        <span class="prog-label">Progresso</span>
+        <span class="prog-pct" id="progressPct">8%</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="progressFill"></div></div>
+    </div>
+
+    <div class="sb-nav-label">Roteiro da Aula</div>
+
+    <ul class="nav-list">
+      <li class="nav-item active" data-slide="0">
+        <span class="nav-num">01</span>
+        <span class="nav-text">Abertura & Diagnóstico</span>
+        <span class="nav-time">5min</span>
+      </li>
+      <li class="nav-item" data-slide="1">
+        <span class="nav-num">02</span>
+        <span class="nav-text">O Erro Que Mata as Vendas</span>
+        <span class="nav-time">8min</span>
+      </li>
+      <li class="nav-item" data-slide="2">
+        <span class="nav-num">03</span>
+        <span class="nav-text">Criativos Campeões</span>
+        <span class="nav-time">12min</span>
+      </li>
+      <li class="nav-item" data-slide="3">
+        <span class="nav-num">04</span>
+        <span class="nav-text">Modelo 1 de Criativo</span>
+        <span class="nav-time">8min</span>
+      </li>
+      <li class="nav-item" data-slide="4">
+        <span class="nav-num">05</span>
+        <span class="nav-text">Modelo 2 de Criativo</span>
+        <span class="nav-time">8min</span>
+      </li>
+      <li class="nav-item" data-slide="5">
+        <span class="nav-num">06</span>
+        <span class="nav-text">Ergonograma do Atendimento</span>
+        <span class="nav-time">15min</span>
+      </li>
+      <li class="nav-item" data-slide="6">
+        <span class="nav-num">07</span>
+        <span class="nav-text">Roteiro: 1ª Mensagem → Qualificação</span>
+        <span class="nav-time">12min</span>
+      </li>
+      <li class="nav-item" data-slide="7">
+        <span class="nav-num">08</span>
+        <span class="nav-text">Contorno de Objeções</span>
+        <span class="nav-time">12min</span>
+      </li>
+      <li class="nav-item" data-slide="8">
+        <span class="nav-num">09</span>
+        <span class="nav-text">Fechamento & Urgência</span>
+        <span class="nav-time">10min</span>
+      </li>
+      <li class="nav-item" data-slide="9">
+        <span class="nav-num">10</span>
+        <span class="nav-text">Remarketing: 3 Sequências</span>
+        <span class="nav-time">10min</span>
+      </li>
+      <li class="nav-item" data-slide="10">
+        <span class="nav-num">11</span>
+        <span class="nav-text">Checklist & Próximos Passos</span>
+        <span class="nav-time">5min</span>
+      </li>
+      <li class="nav-item" data-slide="11">
+        <span class="nav-num">12</span>
+        <span class="nav-text">Encerramento</span>
+        <span class="nav-time">5min</span>
+      </li>
+    </ul>
+
+    <div class="sb-footer">12 blocos · ~110 min · © Lidiane Coser</div>
+  </aside>
+
+  <!-- ═══════════ MAIN ═══════════ -->
+  <main class="content">
+
+    <!-- SLIDE 01 -->
+    <section class="slide active">
+      <div class="slide-label">Bloco 01 — Abertura & Diagnóstico</div>
+      <h1 class="slide-title">Por que seu lead<br>chega e <em>some?</em></h1>
+      <div class="slide-body">
+        <ul class="bullets">
+          <li>Você pagou por esse lead. O anúncio funcionou. Ele clicou, mandou mensagem — e <strong>não comprou.</strong></li>
+          <li>Não é problema de produto. Não é problema de preço. É problema de <strong>atendimento sem estrutura.</strong></li>
+          <li>Hoje vamos resolver isso de uma vez: criativo → WhatsApp → fechamento → remarketing.</li>
+          <li>Esta aula é <strong>operacional.</strong> Você sai daqui com roteiro na mão.</li>
+        </ul>
+      </div>
+      <div class="slide-nav">
+        <button class="btn-nav primary" data-action="next">Próximo →</button>
+      </div>
+    </section>
+
+    <!-- SLIDE 02 -->
+    <section class="slide">
+      <div class="slide-label">Bloco 02 — O Erro Que Mata as Vendas</div>
+      <h1 class="slide-title">O atendimento<br><em>genérico</em> não fecha</h1>
+      <div class="slide-body">
+        <div class="cards2">
+          <div class="card">
+            <div class="card-label bad">❌ O que NÃO funciona</div>
+            <ul>
+              <li>"Olá! Posso te ajudar?"</li>
+              <li>Mandar tabela de preços de cara</li>
+              <li>Ignorar o que o criativo prometeu</li>
+              <li>Esperar o cliente perguntar</li>
+              <li>Desaparecer depois do link de pagamento</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-label good">✅ O que CONVERTE</div>
+            <ul>
+              <li>Continuar a conversa do anúncio</li>
+              <li>Qualificar antes de oferecer</li>
+              <li>Criar contexto e urgência genuína</li>
+              <li>Ter roteiro com intenção em cada etapa</li>
+              <li>Follow-up estruturado até o fechamento</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="slide-nav">
+        <button class="btn-nav" data-action="prev">← Anterior</button>
+        <button class="btn-nav primary" data-action="next">Próximo →</button>
+      </div>
+    </section>
+
+    <!-- SLIDE 03 -->
+    <section class="slide">
+      <div class="slide-label">Bloco 03 — Criativos Campeões de Emagrecimento</div>
+      <h1 class="slide-title">O criativo que<br><em>converte</em> em 2025</h1>
+      <div class="slide-body">
+        <ul class="bullets">
+          <li><strong>UGC (User Generated Content)</strong> — vídeo de pessoa real relatando experiência; taxa de conversão até 12% <span class="pill">campeão</span></li>
+          <li><strong>Depoimento em vídeo curto (30–60s)</strong> — antes/depois verbal, sem texto pesado; o algoritmo da Meta prioriza naturalidade</li>
+          <li><strong>Regra do hook nos primeiros 3s:</strong> a frase de abertura precisa provocar identificação imediata — dor ou curiosidade</li>
+          <li><strong>Nunca prometer resultado garantido</strong> no gerenciador — fale em "apoio", "contribui", "ajuda no processo"</li>
+          <li><strong>Meta Andromeda (2025):</strong> diversidade de criativos é mais importante que orçamento; renove a cada 7–10 dias</li>
+        </ul>
+      </div>
+      <div class="slide-nav">
+        <button class="btn-nav" data-action="prev">← Anterior</button>
+        <button class="btn-nav primary" data-action="next">Próximo →</button>
+      </div>
+    </section>
+
+    <!-- SLIDE 04 -->
+    <section class="slide">
+      <div class="slide-label">Bloco 04 — Modelo 1 de Criativo Campeão</div>
+      <h1 class="slide-title"><em>Criativo 1:</em><br>O Depoimento Transformação</h1>
+      <div class="slide-body">
+        <div class="criativo-box">
+          <h4>🎬 Formato: Vídeo UGC — Pessoa Aparece (30–45s)</h4>
+          <ul>
+            <li><strong>Hook (0–3s):</strong> "Eu estava usando roupa M e não conseguia fechar…" — câmera no rosto, tom natural, sem edição pesada</li>
+            <li><strong>Dor (3–10s):</strong> Relata o incômodo real sem exageros — evitar palavras proibidas como "emagrecer X kg"</li>
+            <li><strong>Virada (10–25s):</strong> Mostra o produto na mão, fala da rotina de uso de forma simples</li>
+            <li><strong>Prova (25–35s):</strong> Veste uma peça menor OU mostra fotos próprias — CTA: "Link na bio / manda mensagem"</li>
+            <li><strong>Visual:</strong> Luz natural, fundo simples (banheiro, quarto), sem vinheta de marca — parece orgânico</li>
+            <li><strong>Legenda no anúncio:</strong> "Ela usou por 30 dias e contou tudo pra gente…" — gera curiosidade sem prometer resultado</li>
+          </ul>
+        </div>
+        <p style="font-size:13px; color:var(--subtle)">⚠️ Dica: esse modelo converte porque não parece anúncio. O feed não "rejeita" o conteúdo.</p>
+      </div>
+      <div class="slide-nav">
+        <button class="btn-nav" data-action="prev">← Anterior</button>
+        <button class="btn-nav primary" data-action="next">Próximo →</button>
+      </div>
+    </section>
+
+    <!-- SLIDE 05 -->
+    <section class="slide">
+      <div class="slide-label">Bloco 05 — Modelo 2 de Criativo Campeão</div>
+      <h1 class="slide-title"><em>Criativo 2:</em><br>O Review de Produto</h1>
+      <div class="slide-body">
+        <div class="criativo-box">
+          <h4>🎬 Formato: Produto em Destaque + Narração (20–30s)</h4>
+          <ul>
+            <li><strong>Hook (0–3s):</strong> Texto na tela: "Esse produto virou febre aqui em casa 👀" — produto em foco, mão segurando</li>
+            <li><strong>Narração (sem rosto):</strong> Voz em off explicando composição — ex: "tem [ingrediente] que ajuda no inchaço e na disposição"</li>
+            <li><strong>Produto em ação:</strong> Abertura da embalagem, close no rótulo, dissolução em água (se for solúvel) — gera credibilidade sensorial</li>
+            <li><strong>Comentário social (overlay):</strong> Print de mensagem de cliente sobreposto — "Liiiinda, to adorando" — prova social nativa</li>
+            <li><strong>CTA final:</strong> "Quer saber mais? Manda mensagem agora, estoque limitado" — texto animado + seta</li>
+            <li><strong>Vantagem:</strong> Pessoa não precisa aparecer — ideal para quem tem vergonha ou privacidade</li>
+          </ul>
+        </div>
+        <p style="font-size:13px; color:var(--subtle)">⚠️ Evite: "emagrecer", "queima gordura", "perder peso". Use: "leveza", "bem-estar", "disposição", "inchaço".</p>
+      </div>
+      <div class="slide-nav">
+        <button class="btn-nav" data-action="prev">← Anterior</button>
+        <button class="btn-nav primary" data-action="next">Próximo →</button>
+      </div>
+    </section>
+
+    <!-- SLIDE 06 -->
+    <section class="slide">
+      <div class="slide-label">Bloco 06 — Ergonograma do Atendimento</div>
+      <h1 class="slide-title">O fluxo completo<br>do lead ao <em>fechamento</em></h1>
+      <div class="slide-body">
+        <div class="ergono">
+          <div class="ergono-row">
+            <div class="ergono-block e-bg1">
+              <span class="num">1</span>
+              <strong>LEAD ENTRA NO WHATSAPP</strong>
+              <p>Vindo do criativo (anúncio clicado). Estado emocional: curioso, quente.</p>
+            </div>
+            <div class="ergono-block e-bg2">
+              <span class="num">2</span>
+              <strong>ACOLHIMENTO (0–2min)</strong>
+              <p>Resposta imediata. Continua a conversa do anúncio. Tom leve e humano.</p>
+            </div>
+            <div class="ergono-block e-bg3">
+              <span class="num">3</span>
+              <strong>QUALIFICAÇÃO (2–5min)</strong>
+              <p>2 perguntas estratégicas: objetivo + contexto. Sem interrogatório.</p>
+            </div>
+          </div>
+          <div class="ergono-row">
+            <div class="ergono-block e-bg4">
+              <span class="num">4</span>
+              <strong>APRESENTAÇÃO PERSONALIZADA</strong>
+              <p>Produto certo para a dor dela. Benefício + prova social + valor.</p>
+            </div>
+            <div class="ergono-block e-bg1">
+              <span class="num">5</span>
+              <strong>CONTORNO DE OBJEÇÃO</strong>
+              <p>"Tá caro", "vou pensar", "não tenho certeza" → roteiro específico.</p>
+            </div>
+            <div class="ergono-block e-bg2">
+              <span class="num">6</span>
+              <strong>FECHAMENTO + URGÊNCIA</strong>
+              <p>Gatilho legítimo. Link de pagamento. Silêncio estratégico.</p>
+            </div>
+          </div>
+          <div class="ergono-row">
+            <div class="ergono-block e-bg5" style="grid-column: span 3; flex: 3">
+              <span class="num" style="font-size: clamp(16px,1.6vw,22px); display:inline">7 → REMARKETING ESTRUTURADO (D+1 · D+3 · D+7)</span>
+              <p style="margin-top:4px">Lead que não fechou entra em sequência automática. Nunca abandone quem não disse não.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-nav">
+        <button class="btn-nav" data-action="prev">← Anterior</button>
+        <button class="btn-nav primary" data-action="next">Próximo →</button>
+      </div>
+    </section>
+
+    <!-- SLIDE 07 -->
+    <section class="slide">
+      <div class="slide-label">Bloco 07 — Roteiro: 1ª Mensagem → Qualificação</div>
+      <h1 class="slide-title">O que <em>escrever</em><br>na primeira mensagem?</h1>
+      <div class="slide-body">
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-content">
+              <h4>Acolhimento (espelha o anúncio)</h4>
+              <p>"Oi [nome]! Vi que você se interessou pelo [produto]. Que bom te ter aqui 😊 Pode me contar um pouquinho sobre o que você tá buscando?"</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-content">
+              <h4>Pergunta de Qualificação 1 — Objetivo</h4>
+              <p>"Você tá buscando mais leveza, disposição no dia a dia, ou tá com algum incômodo específico que quer resolver?"</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-content">
+              <h4>Pergunta de Qualificação 2 — Contexto</h4>
+              <p>"Você já faz alguma coisa hoje pra cuidar da sua saúde, ou tá começando do zero? Pergunto pra te indicar o que faz mais sentido pra você."</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">04</div>
+            <div class="step-content">
+              <h4>Apresentação Personalizada</h4>
+              <p>Com base na resposta: conecta a dor dela ao benefício do produto. "Pelo que você me contou, o [produto] é ideal porque…"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-nav">
+        <button class="btn-nav" data-action="prev">← Anterior</button>
+        <button class="btn-nav primary" data-action="next">Próximo →</button>
+      </div>
+    </section>
+
+    <!-- SLIDE 08 -->
+    <section class="slide">
+      <div class="slide-label">Bloco 08 — Contorno de Objeções</div>
+      <h1 class="slide-title">Objeção não é<br><em>rejeição</em></h1>
+      <div class="slide-body">
+        <div class="cards2">
+          <div class="card">
+            <div class="card-label bad">💬 "Tá caro"</div>
+            <p>"Entendo! Quando a gente vê o valor de uma vez pode parecer muito. Mas se você dividir, é menos de [X] por dia — menos que um cafezinho. E você está investindo na sua saúde, né? Você prefere parcelar?"</p>
+          </div>
+          <div class="card">
+            <div class="card-label bad">💬 "Vou pensar"</div>
+            <p>"Claro, faz sentido! Só te aviso que o estoque que separamos pra essa condição é limitado. Posso reservar pra você até hoje à noite? Aí você pensa com calma e não perde a condição."</p>
+          </div>
+          <div class="card">
+            <div class="card-label bad">💬 "Não tenho certeza se funciona"</div>
+            <p>"Completamente válido. Olha que bacana — aqui a [nome de cliente] me mandou esse retorno depois de 3 semanas. [print]. Quem começa na dúvida costuma ser quem mais se surpreende 😊"</p>
+          </div>
+          <div class="card">
+            <div class="card-label bad">💬 "Deixa pra depois"</div>
+            <p>"Te entendo. Só que o preço dessa condição é especial e fecha [hoje/amanhã]. Posso mandar o link agora e você decide? Zero pressão — só não quero que você perca."</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-nav">
+        <button class="btn-nav" data-action="prev">← Anterior</button>
+        <button class="btn-nav primary" data-action="next">Próximo →</button>
+      </div>
+    </section>
+
+    <!-- SLIDE 09 -->
+    <section class="slide">
+      <div class="slide-label">Bloco 09 — Fechamento & Urgência</div>
+      <h1 class="slide-title">Fechar é <em>servir,</em><br>não pressionar</h1>
+      <div class="slide-body">
+        <ul class="bullets">
+          <li><strong>Assuma o fechamento:</strong> "Vou separar uma unidade pra você. Me confirma o seu endereço?" — pressuposição positiva.</li>
+          <li><strong>Urgência legítima:</strong> estoque real, condição de frete, bônus que expira — nunca minta, isso destrói confiança.</li>
+          <li><strong>Envie o link e PARE:</strong> após mandar o link de pagamento, não mande mais nada. O silêncio tem poder.</li>
+          <li><strong>Se sumir após o link:</strong> aguarde 1h. Depois: "Oi [nome], conseguiu acessar o link? Às vezes cai no spam. Posso te mandar de outro jeito?"</li>
+          <li><strong>Confirmação de pagamento:</strong> celebre com a cliente — isso cria vínculo e reduz estorno. "Mandei tudo certinho! Em breve você recebe a confirmação de envio 🎉"</li>
+        </ul>
+      </div>
+      <div class="slide-nav">
+        <button class="btn-nav" data-action="prev">← Anterior</button>
+        <button class="btn-nav primary" data-action="next">Próximo →</button>
+      </div>
+    </section>
+
+    <!-- SLIDE 10 -->
+    <section class="slide">
+      <div class="slide-label">Bloco 10 — Remarketing: 3 Sequências</div>
+      <h1 class="slide-title">Quem não comprou<br>ainda <em>vai comprar</em></h1>
+      <div class="slide-body">
+        <div class="remark-flow">
+          <div class="remark-step">
+            <strong>D+1</strong>
+            Reativação Suave<br><span style="font-size:11px;color:var(--subtle)">"Oi [nome], ainda consigo separar uma unidade pra você. Tudo bem por aí?"</span>
+          </div>
+          <div class="remark-arrow">→</div>
+          <div class="remark-step">
+            <strong>D+3</strong>
+            Prova Social<br><span style="font-size:11px;color:var(--subtle)">Manda print de resultado de cliente. "Olha o que chegou aqui hoje…"</span>
+          </div>
+          <div class="remark-arrow">→</div>
+          <div class="remark-step">
+            <strong>D+7</strong>
+            Última Chance Real<br><span style="font-size:11px;color:var(--subtle)">"[Nome], o lote que separei vai hoje. Não quero te perder. Última chance nessa condição."</span>
+          </div>
+        </div>
+        <div style="margin-top:20px">
+          <ul class="bullets">
+            <li><strong>Remarketing no Meta Ads:</strong> crie público de quem interagiu com o anúncio mas não converteu → mostre criativo 2 diferente do que viu antes</li>
+            <li><strong>Carrossel de prova social:</strong> prints de clientes reais (com autorização) funcionam muito bem como remarketing pago</li>
+            <li><strong>Regra de ouro:</strong> lead que disse "não" uma vez pode dizer "sim" na terceira abordagem. Não desista no primeiro silêncio.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="slide-nav">
+        <button class="btn-nav" data-action="prev">← Anterior</button>
+        <button class="btn-nav primary" data-action="next">Próximo →</button>
+      </div>
+    </section>
+
+    <!-- SLIDE 11 -->
+    <section class="slide">
+      <div class="slide-label">Bloco 11 — Checklist & Próximos Passos</div>
+      <h1 class="slide-title">Sua lista de<br><em>implementação</em> hoje</h1>
+      <div class="slide-body">
+        <div class="grid3">
+          <div class="g3card">
+            <div class="icon">🎬</div>
+            <h5>Criativo</h5>
+            <p>Grave 1 vídeo UGC esta semana. Use o Modelo 1 (rosto) ou Modelo 2 (produto). Evite palavras proibidas. Renove a cada 10 dias.</p>
+          </div>
+          <div class="g3card">
+            <div class="icon">💬</div>
+            <h5>Atendimento</h5>
+            <p>Salve o roteiro de qualificação como resposta rápida no WhatsApp Business. Responda em até 5 minutos do lead entrar.</p>
+          </div>
+          <div class="g3card">
+            <div class="icon">🔁</div>
+            <h5>Remarketing</h5>
+            <p>Crie as 3 mensagens (D+1, D+3, D+7) e agende no WhatsApp Business. No Meta, suba público de engajamento sem conversão.</p>
+          </div>
+        </div>
+        <div style="margin-top:20px">
+          <ul class="bullets">
+            <li><strong>Meta dos próximos 7 dias:</strong> um criativo novo rodando + roteiro salvo + sequência de remarketing ativa.</li>
+            <li>Quem implementar essa semana e trouxer resultados na próxima aula ganha destaque no grupo 🏆</li>
+          </ul>
+        </div>
+      </div>
+      <div class="slide-nav">
+        <button class="btn-nav" data-action="prev">← Anterior</button>
+        <button class="btn-nav primary" data-action="next">Próximo →</button>
+      </div>
+    </section>
+
+    <!-- SLIDE 12 -->
+    <section class="slide">
+      <div class="slide-label">Bloco 12 — Encerramento</div>
+      <h1 class="slide-title">Você não vende<br>produto. Você<br>vende <em>resultado.</em></h1>
+      <div class="anchor-frame">
+        <ul class="bullets">
+          <li>A comissão está no <strong>atendimento,</strong> não no anúncio. O anúncio só abre a porta.</li>
+          <li>Estrutura + constância + empatia = conversão. Não tem segredo.</li>
+          <li>O material desta aula está disponível na <strong>área de membros.</strong> Use como consulta sempre que precisar.</li>
+          <li>Dúvidas? Leva pro grupo. Resultados? <strong>Celebra com a gente!</strong> 🎉</li>
+        </ul>
+      </div>
+      <div style="margin-top:20px; font-size:13px; color:var(--subtle)">© Aula Autoral — Lidiane Coser · Todos os direitos reservados</div>
+      <div class="slide-nav">
+        <button class="btn-nav" data-action="prev">← Anterior</button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const navItems = document.querySelectorAll('.nav-item');
+  const total = slides.length;
+
+  function goTo(index) {
+    if (index < 0 || index >= total) return;
+    slides[current].classList.remove('active');
+    navItems[current].classList.remove('active');
+    current = index;
+    slides[current].classList.add('active');
+    navItems[current].classList.add('active');
+    navItems[current].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const pct = Math.round(((current + 1) / total) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
+  }
+
+  navItems.forEach((item, i) => item.addEventListener('click', () => goTo(i)));
+  document.querySelectorAll('[data-action="next"]').forEach(b => b.addEventListener('click', () => goTo(current + 1)));
+  document.querySelectorAll('[data-action="prev"]').forEach(b => b.addEventListener('click', () => goTo(current - 1)));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); }
+  });
+
+  updateProgress();
+</script>
+</body>
+</html>

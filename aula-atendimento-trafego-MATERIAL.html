@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atendimento no Tráfego Pago — Material de Apoio · Lidiane Coser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #F9F7F4;
+    --surface: #FFFFFF;
+    --border:  #E5E0D8;
+    --accent:  #9B6D2F;
+    --accent2: #3A8C78;
+    --text:    #1A1814;
+    --subtle:  #8A8278;
+    --muted:   #C5BFB5;
+    --serif:   'Cormorant Garamond', serif;
+    --sans:    'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.7;
+  }
+
+  /* ── HEADER CAPA ── */
+  .cover {
+    background: #1A1814;
+    color: #F9F7F4;
+    padding: 64px 48px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 380px; height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(155,109,47,0.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cover-tag {
+    display: inline-block;
+    border: 1px solid rgba(155,109,47,0.5);
+    color: #C8964A;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+  .cover h1 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 700;
+    line-height: 1.08;
+    margin-bottom: 16px;
+  }
+  .cover h1 em { color: #C8964A; font-style: italic; }
+  .cover-sub {
+    font-size: 15px;
+    color: rgba(249,247,244,0.6);
+    margin-bottom: 28px;
+    max-width: 560px;
+  }
+  .cover-meta {
+    font-size: 13px;
+    color: rgba(249,247,244,0.45);
+    letter-spacing: 0.05em;
+  }
+  .cover-meta strong { color: rgba(249,247,244,0.75); }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  /* ── SUMÁRIO ── */
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 48px;
+  }
+  .toc h2 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: var(--text);
+  }
+  .toc ol {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 24px;
+  }
+  .toc li {
+    font-size: 14px;
+    color: var(--subtle);
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+  .toc li .num {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+    min-width: 24px;
+  }
+
+  /* ── SECTION BLOCK ── */
+  .section {
+    margin-bottom: 52px;
+    page-break-inside: avoid;
+  }
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .section h2 {
+    font-family: var(--serif);
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 700;
+    line-height: 1.12;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+  .section h2 em { color: var(--accent); font-style: italic; }
+
+  .divider {
+    width: 48px; height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+
+  p.lead {
+    font-size: 17px;
+    color: var(--subtle);
+    margin-bottom: 20px;
+    line-height: 1.65;
+  }
+
+  /* Cards comparativos */
+  .cards2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  @media(max-width:600px){ .cards2 { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .card-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .card-tag.bad { color: #C0503A; }
+  .card-tag.good { color: var(--accent2); }
+  .card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .card li {
+    font-size: 14px;
+    color: var(--subtle);
+    padding-left: 14px;
+    position: relative;
+  }
+  .card li::before { content: "·"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+  .card h4 { font-size: 16px; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+
+  /* Box destaque */
+  .box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .box h4 {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .box ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .box li { font-size: 14px; color: var(--subtle); padding-left: 16px; position: relative; }
+  .box li::before { content: "→"; position: absolute; left: 0; color: var(--accent2); font-weight: 700; }
+  .box p { font-size: 14px; color: var(--subtle); line-height: 1.6; }
+
+  /* Alerta/nota */
+  .alert {
+    background: rgba(155,109,47,0.07);
+    border: 1px solid rgba(155,109,47,0.2);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--accent);
+    margin: 16px 0;
+    font-weight: 500;
+  }
+
+  /* Ergonograma */
+  .ergono {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+  @media(max-width:600px){ .ergono { grid-template-columns: 1fr; } }
+  .ergono-block {
+    padding: 18px;
+    border: 1px solid var(--border);
+  }
+  .ergono-block .num {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .ergono-block h5 { font-size: 13px; font-weight: 600; margin-bottom: 4px; color: var(--text); }
+  .ergono-block p { font-size: 12px; color: var(--subtle); line-height: 1.5; }
+  .e1 .num { color: var(--accent); }
+  .e2 .num { color: var(--accent2); }
+  .e3 .num { color: var(--accent); }
+  .e4 .num { color: var(--accent2); }
+  .e5 .num { color: var(--accent); }
+  .e6 .num { color: var(--accent2); }
+  .e7 {
+    grid-column: span 3;
+    background: #1A1814;
+    border-top: 2px solid var(--accent);
+  }
+  .e7 .num { color: var(--accent); }
+  .e7 h5 { color: #F9F7F4; }
+  .e7 p { color: rgba(249,247,244,0.6); }
+  @media(max-width:600px){ .e7 { grid-column: span 1; } }
+
+  /* Passos numerados */
+  .steps { display: flex; flex-direction: column; gap: 16px; margin: 16px 0; }
+  .step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .step-num {
+    font-family: var(--serif);
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 40px;
+  }
+  .step-content h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; color: var(--text); }
+  .step-content p { font-size: 14px; color: var(--subtle); line-height: 1.55; }
+  .step-content .msg {
+    margin-top: 8px;
+    background: #F0EDE7;
+    border-radius: 8px 8px 8px 2px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* Remarketing timeline */
+  .remark {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+  }
+  @media(max-width:600px){ .remark { grid-template-columns: 1fr; } }
+  .remark-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .remark-card .day {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .remark-card h5 { font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+  .remark-card .msg {
+    background: #F0EDE7;
+    border-radius: 8px 8px 8px 2px;
+    padding: 10px;
+    font-size: 12px;
+    color: var(--subtle);
+    font-style: italic;
+    line-height: 1.5;
+    margin-top: 8px;
+  }
+
+  /* Checklist */
+  .checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+  .checklist li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 15px;
+    color: var(--subtle);
+  }
+  .checklist li::before {
+    content: "☐";
+    font-size: 18px;
+    color: var(--muted);
+    flex-shrink: 0;
+    line-height: 1.2;
+  }
+  .checklist li strong { color: var(--text); }
+
+  /* Grid 3 */
+  .grid3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 16px 0;
+  }
+  @media(max-width:600px){ .grid3 { grid-template-columns: 1fr; } }
+  .g3 {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .g3 .icon { font-size: 22px; margin-bottom: 8px; }
+  .g3 h5 { font-family: var(--serif); font-size: 17px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+  .g3 p { font-size: 13px; color: var(--subtle); line-height: 1.55; }
+
+  /* Encerramento */
+  .closing {
+    background: #1A1814;
+    color: #F9F7F4;
+    border-radius: 12px;
+    padding: 36px;
+    margin-top: 12px;
+  }
+  .closing h3 {
+    font-family: var(--serif);
+    font-size: clamp(24px, 3vw, 38px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .closing h3 em { color: #C8964A; font-style: italic; }
+  .closing ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .closing li {
+    font-size: 15px;
+    color: rgba(249,247,244,0.7);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .closing li::before { content: "▸"; position: absolute; left: 0; color: #C8964A; }
+  .closing li strong { color: #F9F7F4; }
+  .copy {
+    margin-top: 28px;
+    font-size: 12px;
+    color: rgba(249,247,244,0.3);
+    letter-spacing: 0.05em;
+  }
+
+  @media print {
+    .section { page-break-inside: avoid; }
+    body { background: white; }
+    .cover { background: #1A1814 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="cover">
+  <div class="cover-tag">Material de Apoio · Área de Membros</div>
+  <h1>Atendimento no<br><em>Tráfego Pago</em></h1>
+  <p class="cover-sub">Criativos campeões de emagrecimento, roteiro completo de atendimento no WhatsApp, contorno de objeções, fechamento e remarketing estruturado.</p>
+  <div class="cover-meta">
+    <strong>Lidiane Coser</strong> · Aula Autoral · Produtos Físicos via Anúncios
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- SUMÁRIO -->
+  <div class="toc">
+    <h2>Conteúdo desta aula</h2>
+    <ol>
+      <li><span class="num">01</span> Diagnóstico: por que o lead some</li>
+      <li><span class="num">02</span> O erro que mata as vendas</li>
+      <li><span class="num">03</span> Criativos campeões de emagrecimento</li>
+      <li><span class="num">04</span> Modelo 1 — Depoimento Transformação</li>
+      <li><span class="num">05</span> Modelo 2 — Review de Produto</li>
+      <li><span class="num">06</span> Ergonograma do atendimento</li>
+      <li><span class="num">07</span> Roteiro: 1ª mensagem → qualificação</li>
+      <li><span class="num">08</span> Contorno de objeções</li>
+      <li><span class="num">09</span> Fechamento & urgência</li>
+      <li><span class="num">10</span> Remarketing: 3 sequências</li>
+      <li><span class="num">11</span> Checklist de implementação</li>
+      <li><span class="num">12</span> Encerramento</li>
+    </ol>
+  </div>
+
+  <!-- BLOCO 01 -->
+  <div class="section">
+    <div class="section-label">Bloco 01</div>
+    <h2>Por que seu lead chega<br>e <em>some?</em></h2>
+    <div class="divider"></div>
+    <p class="lead">Você pagou por esse lead. O anúncio funcionou. Ele clicou, mandou mensagem — e não comprou. Isso não é problema de produto nem de preço. É problema de atendimento sem estrutura.</p>
+    <div class="box">
+      <ul>
+        <li>A comissão está no atendimento, não no anúncio. O anúncio só abre a porta.</li>
+        <li>Cada lead que chega representa dinheiro investido. Deixar escapar é prejuízo duplo.</li>
+        <li>Com roteiro e ergonograma, você multiplica a conversão sem aumentar o investimento em anúncios.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- BLOCO 02 -->
+  <div class="section">
+    <div class="section-label">Bloco 02</div>
+    <h2>O atendimento <em>genérico</em><br>não fecha</h2>
+    <div class="divider"></div>
+    <div class="cards2">
+      <div class="card">
+        <div class="card-tag bad">❌ O que NÃO funciona</div>
+        <ul>
+          <li>"Olá! Posso te ajudar?"</li>
+          <li>Mandar tabela de preços de cara</li>
+          <li>Ignorar o que o criativo prometeu</li>
+          <li>Esperar o cliente perguntar tudo</li>
+          <li>Desaparecer após enviar o link</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-tag good">✅ O que CONVERTE</div>
+        <ul>
+          <li>Continuar a conversa do anúncio</li>
+          <li>Qualificar antes de oferecer</li>
+          <li>Criar contexto e urgência real</li>
+          <li>Ter roteiro com intenção em cada etapa</li>
+          <li>Follow-up estruturado até o fechamento</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCO 03 -->
+  <div class="section">
+    <div class="section-label">Bloco 03</div>
+    <h2>Criativos <em>campeões</em><br>de emagrecimento em 2025</h2>
+    <div class="divider"></div>
+    <p class="lead">O algoritmo da Meta mudou. Com o sistema Andromeda, diversidade de criativos vale mais do que orçamento. Saiba o que está convertendo agora.</p>
+    <div class="box">
+      <h4>O que funciona hoje</h4>
+      <ul>
+        <li><strong>UGC (User Generated Content):</strong> vídeo de pessoa real relatando experiência — taxa de conversão pode chegar a 12%</li>
+        <li><strong>Depoimento em vídeo (30–60s):</strong> relato antes/depois verbal, sem edição pesada, sem vinheta de marca</li>
+        <li><strong>Hook nos primeiros 3 segundos:</strong> a frase de abertura precisa provocar identificação imediata — dor ou curiosidade</li>
+        <li><strong>Prova social nativa:</strong> print de mensagem de cliente sobreposto no vídeo funciona muito bem</li>
+        <li><strong>Renovação a cada 7–10 dias:</strong> fadiga criativa é real — diversifique sem aumentar verba</li>
+      </ul>
+    </div>
+    <div class="alert">⚠️ Palavras proibidas no gerenciador: "emagrecer", "queimar gordura", "perder X kg", "eliminar gordura". Use: "leveza", "bem-estar", "disposição", "desinchar", "apoio no processo".</div>
+  </div>
+
+  <!-- BLOCO 04 -->
+  <div class="section">
+    <div class="section-label">Bloco 04 — Modelo 1</div>
+    <h2><em>Criativo 1:</em><br>O Depoimento Transformação</h2>
+    <div class="divider"></div>
+    <div class="box">
+      <h4>🎬 Formato: Vídeo UGC — Pessoa Aparece (30–45s)</h4>
+      <ul>
+        <li><strong>Hook (0–3s):</strong> "Eu estava usando roupa M e não conseguia fechar…" — câmera no rosto, tom natural</li>
+        <li><strong>Dor (3–10s):</strong> Relata o incômodo real sem exageros — evitar palavras proibidas</li>
+        <li><strong>Virada (10–25s):</strong> Mostra o produto na mão, fala da rotina de uso de forma simples</li>
+        <li><strong>Prova (25–35s):</strong> Veste uma peça menor OU mostra fotos próprias — CTA: "Link na bio / manda mensagem"</li>
+        <li><strong>Visual:</strong> Luz natural, fundo simples (banheiro, quarto), sem vinheta de marca — parece orgânico</li>
+        <li><strong>Legenda no anúncio:</strong> "Ela usou por 30 dias e contou tudo pra gente…" — gera curiosidade sem prometer resultado</li>
+      </ul>
+    </div>
+    <p style="font-size:13px;color:var(--subtle);margin-top:8px">💡 Esse modelo converte porque não parece anúncio. O feed não "rejeita" o conteúdo — o algoritmo entrega para mais pessoas com menor CPM.</p>
+  </div>
+
+  <!-- BLOCO 05 -->
+  <div class="section">
+    <div class="section-label">Bloco 05 — Modelo 2</div>
+    <h2><em>Criativo 2:</em><br>O Review de Produto</h2>
+    <div class="divider"></div>
+    <div class="box">
+      <h4>🎬 Formato: Produto em Destaque + Narração (20–30s)</h4>
+      <ul>
+        <li><strong>Hook (0–3s):</strong> Texto na tela: "Esse produto virou febre aqui em casa 👀" — produto em foco, mão segurando</li>
+        <li><strong>Narração (sem rosto):</strong> Voz em off explicando composição — ex: "tem [ingrediente] que ajuda no inchaço e na disposição"</li>
+        <li><strong>Produto em ação:</strong> Abertura da embalagem, close no rótulo, dissolução em água — gera credibilidade sensorial</li>
+        <li><strong>Comentário social (overlay):</strong> Print de mensagem de cliente sobreposto — "Liiiinda, to adorando" — prova social nativa</li>
+        <li><strong>CTA final:</strong> "Quer saber mais? Manda mensagem agora, estoque limitado" — texto animado + seta</li>
+        <li><strong>Vantagem:</strong> Pessoa não precisa aparecer — ideal para quem tem privacidade ou vergonha de câmera</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- BLOCO 06 -->
+  <div class="section">
+    <div class="section-label">Bloco 06</div>
+    <h2>Ergonograma do<br><em>Atendimento</em></h2>
+    <div class="divider"></div>
+    <p class="lead">O fluxo completo desde a entrada do lead até o remarketing. Cada etapa tem intenção. Nada é improvisado.</p>
+    <div class="ergono">
+      <div class="ergono-block e1">
+        <span class="num">1</span>
+        <h5>Lead Entra no WhatsApp</h5>
+        <p>Vindo do criativo (anúncio clicado). Estado emocional: curioso, quente.</p>
+      </div>
+      <div class="ergono-block e2">
+        <span class="num">2</span>
+        <h5>Acolhimento (0–2min)</h5>
+        <p>Resposta imediata. Continua a conversa do anúncio. Tom leve e humano.</p>
+      </div>
+      <div class="ergono-block e3">
+        <span class="num">3</span>
+        <h5>Qualificação (2–5min)</h5>
+        <p>2 perguntas estratégicas: objetivo + contexto. Sem interrogatório.</p>
+      </div>
+      <div class="ergono-block e4">
+        <span class="num">4</span>
+        <h5>Apresentação Personalizada</h5>
+        <p>Produto certo para a dor dela. Benefício + prova social + valor.</p>
+      </div>
+      <div class="ergono-block e5">
+        <span class="num">5</span>
+        <h5>Contorno de Objeção</h5>
+        <p>"Tá caro", "vou pensar", "não tenho certeza" → roteiro específico.</p>
+      </div>
+      <div class="ergono-block e6">
+        <span class="num">6</span>
+        <h5>Fechamento + Urgência</h5>
+        <p>Gatilho legítimo. Link de pagamento. Silêncio estratégico.</p>
+      </div>
+      <div class="ergono-block e7">
+        <span class="num">7</span>
+        <h5>Remarketing Estruturado (D+1 · D+3 · D+7)</h5>
+        <p>Lead que não fechou entra em sequência automática. Nunca abandone quem não disse "não".</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCO 07 -->
+  <div class="section">
+    <div class="section-label">Bloco 07</div>
+    <h2>Roteiro: 1ª Mensagem<br>→ <em>Qualificação</em></h2>
+    <div class="divider"></div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h4>Acolhimento (espelha o anúncio)</h4>
+          <div class="msg">"Oi [nome]! Vi que você se interessou pelo [produto]. Que bom te ter aqui 😊 Pode me contar um pouquinho sobre o que você tá buscando?"</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h4>Pergunta de Qualificação 1 — Objetivo</h4>
+          <div class="msg">"Você tá buscando mais leveza, disposição no dia a dia, ou tá com algum incômodo específico que quer resolver?"</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h4>Pergunta de Qualificação 2 — Contexto</h4>
+          <div class="msg">"Você já faz alguma coisa hoje pra cuidar da sua saúde, ou tá começando do zero? Pergunto pra te indicar o que faz mais sentido pra você."</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h4>Apresentação Personalizada</h4>
+          <p>Com base na resposta dela, conecte a dor ao benefício do produto.</p>
+          <div class="msg">"Pelo que você me contou, o [produto] é ideal porque ele atua exatamente no [benefício específico]. Muitas clientes que tinham o mesmo incômodo que você reportaram [resultado em linguagem segura]."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCO 08 -->
+  <div class="section">
+    <div class="section-label">Bloco 08</div>
+    <h2>Contorno de<br><em>Objeções</em></h2>
+    <div class="divider"></div>
+    <p class="lead">Objeção não é rejeição. É um pedido de mais segurança. Saiba o que responder em cada situação.</p>
+    <div class="cards2">
+      <div class="card">
+        <h4>💬 "Tá caro"</h4>
+        <p style="font-size:14px;color:var(--subtle);line-height:1.6">"Entendo! Quando a gente vê o valor de uma vez pode parecer muito. Mas dividido, é menos de [X] por dia — menos que um cafezinho. E você está investindo na sua saúde. Você prefere parcelar?"</p>
+      </div>
+      <div class="card">
+        <h4>💬 "Vou pensar"</h4>
+        <p style="font-size:14px;color:var(--subtle);line-height:1.6">"Claro, faz sentido! Só te aviso que o estoque dessa condição é limitado. Posso reservar até hoje à noite? Aí você pensa com calma e não perde a condição."</p>
+      </div>
+      <div class="card">
+        <h4>💬 "Não tenho certeza"</h4>
+        <p style="font-size:14px;color:var(--subtle);line-height:1.6">"Completamente válido. Olha o retorno que a [nome] me mandou depois de 3 semanas. [print]. Quem começa na dúvida costuma ser quem mais se surpreende 😊"</p>
+      </div>
+      <div class="card">
+        <h4>💬 "Deixa pra depois"</h4>
+        <p style="font-size:14px;color:var(--subtle);line-height:1.6">"Te entendo. Só que essa condição fecha [hoje/amanhã]. Posso mandar o link agora e você decide? Zero pressão — só não quero que você perca."</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCO 09 -->
+  <div class="section">
+    <div class="section-label">Bloco 09</div>
+    <h2>Fechamento &<br><em>Urgência</em></h2>
+    <div class="divider"></div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Pressuposição positiva (assume o fechamento)</h4>
+          <div class="msg">"Vou separar uma unidade pra você. Me confirma o seu endereço?"</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Urgência legítima</h4>
+          <p>Estoque real, frete grátis limitado, bônus com prazo — nunca minta. Urgência falsa destrói confiança e gera estorno.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Envie o link e PARE</h4>
+          <p>Após mandar o link de pagamento, não mande mais nada. Aguarde. O silêncio tem poder de vendas.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Se sumir após o link (1h depois)</h4>
+          <div class="msg">"Oi [nome], conseguiu acessar o link? Às vezes cai no spam. Posso te mandar de outro jeito?"</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h4>Confirmação de pagamento</h4>
+          <div class="msg">"Mandei tudo certinho! Em breve você recebe a confirmação de envio 🎉 Fico feliz que você tenha dado esse passo!"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCO 10 -->
+  <div class="section">
+    <div class="section-label">Bloco 10</div>
+    <h2>Remarketing:<br><em>3 Sequências</em></h2>
+    <div class="divider"></div>
+    <p class="lead">Lead que não comprou hoje pode comprar amanhã. Nunca abandone quem não disse explicitamente "não".</p>
+    <div class="remark">
+      <div class="remark-card">
+        <span class="day">D+1</span>
+        <h5>Reativação Suave</h5>
+        <p style="font-size:12px;color:var(--subtle)">Tom: cuidado, sem pressão.</p>
+        <div class="msg">"Oi [nome], ainda consigo separar uma unidade pra você. Tudo bem por aí?"</div>
+      </div>
+      <div class="remark-card">
+        <span class="day">D+3</span>
+        <h5>Prova Social</h5>
+        <p style="font-size:12px;color:var(--subtle)">Tom: entusiasmo genuíno.</p>
+        <div class="msg">"Olha o que chegou aqui hoje… [print de cliente]. Lembrei de você 💛"</div>
+      </div>
+      <div class="remark-card">
+        <span class="day">D+7</span>
+        <h5>Última Chance Real</h5>
+        <p style="font-size:12px;color:var(--subtle)">Tom: honesto, com urgência.</p>
+        <div class="msg">"[Nome], o lote que separei vai hoje. Não quero te perder. Última chance nessa condição."</div>
+      </div>
+    </div>
+    <div class="box" style="margin-top:20px">
+      <h4>Remarketing no Meta Ads</h4>
+      <ul>
+        <li>Crie público de quem interagiu com o anúncio mas não converteu</li>
+        <li>Mostre um criativo diferente do que a pessoa já viu (modelo 1 → modelo 2)</li>
+        <li>Carrossel de prints de clientes reais (com autorização) converte muito bem como remarketing pago</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- BLOCO 11 -->
+  <div class="section">
+    <div class="section-label">Bloco 11</div>
+    <h2>Checklist de<br><em>Implementação</em></h2>
+    <div class="divider"></div>
+    <div class="grid3">
+      <div class="g3">
+        <div class="icon">🎬</div>
+        <h5>Criativo</h5>
+        <p>Grave 1 vídeo UGC esta semana. Use o Modelo 1 (rosto) ou Modelo 2 (produto). Evite palavras proibidas. Renove a cada 10 dias.</p>
+      </div>
+      <div class="g3">
+        <div class="icon">💬</div>
+        <h5>Atendimento</h5>
+        <p>Salve o roteiro de qualificação como resposta rápida no WhatsApp Business. Responda em até 5 minutos da entrada do lead.</p>
+      </div>
+      <div class="g3">
+        <div class="icon">🔁</div>
+        <h5>Remarketing</h5>
+        <p>Crie as 3 mensagens (D+1, D+3, D+7) e agende. No Meta, suba público de engajamento sem conversão.</p>
+      </div>
+    </div>
+    <ul class="checklist" style="margin-top:20px">
+      <li>Grava 1 criativo UGC (modelo 1 ou 2) até o final da semana</li>
+      <li>Salva o roteiro de acolhimento + qualificação como resposta rápida no WhatsApp Business</li>
+      <li>Escreve as 3 mensagens de remarketing e deixa prontas para usar</li>
+      <li>Cria público de retargeting no Meta com quem interagiu mas não converteu</li>
+      <li><strong>Meta: 1 venda a mais esta semana com esse roteiro</strong></li>
+    </ul>
+  </div>
+
+  <!-- ENCERRAMENTO -->
+  <div class="section">
+    <div class="section-label">Bloco 12</div>
+    <h2>Encerramento</h2>
+    <div class="divider"></div>
+    <div class="closing">
+      <h3>Você não vende produto.<br>Você vende <em>resultado.</em></h3>
+      <ul>
+        <li>A comissão está no atendimento, não no anúncio. O anúncio só abre a porta.</li>
+        <li>Estrutura + constância + empatia = conversão. Não tem segredo — só tem processo.</li>
+        <li>Use este material como consulta sempre que precisar. Está na sua área de membros.</li>
+        <li><strong>Dúvidas? Leva pro grupo. Resultados? Celebra com a gente! 🎉</strong></li>
+      </ul>
+      <div class="copy">© Aula Autoral — Lidiane Coser · Todos os direitos reservados · Material exclusivo para alunos</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
