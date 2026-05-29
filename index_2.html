@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>27/05/26 — Aula de Criativos e Análise de Atendimento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #0D0E12;
+    --surface: #13151C;
+    --border:  #1F2235;
+    --accent:  #C8964A;
+    --accent2: #6DBFA8;
+    --text:    #EDEAE3;
+    --subtle:  #5A5E78;
+    --serif:   'Cormorant Garamond', serif;
+    --sans:    'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,150,74,0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -200px; left: -200px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(109,191,168,0.07) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .wrapper {
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.7s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .badge {
+    display: inline-block;
+    border: 1px solid rgba(200,150,74,0.35);
+    background: rgba(200,150,74,0.08);
+    color: var(--accent);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .header h1 {
+    font-family: var(--serif);
+    font-size: clamp(20px, 3vw, 32px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    white-space: nowrap;
+  }
+  .header h1 em {
+    color: var(--accent);
+    font-style: italic;
+  }
+  .header p {
+    font-size: 15px;
+    color: var(--subtle);
+    line-height: 1.6;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 auto 40px;
+    max-width: 300px;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .divider span {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--subtle);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(200,150,74,0.04) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .card:hover {
+    border-color: rgba(200,150,74,0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+  .card:hover::before { opacity: 1; }
+  .card.card2:hover { border-color: rgba(109,191,168,0.4); }
+  .card.card2::before { background: linear-gradient(135deg, rgba(109,191,168,0.04) 0%, transparent 60%); }
+  .card-icon {
+    width: 52px; height: 52px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .card-icon.i1 { background: rgba(200,150,74,0.12); }
+  .card-icon.i2 { background: rgba(109,191,168,0.12); }
+  .card-body { flex: 1; }
+  .card-tag {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .t1 { color: var(--accent); }
+  .t2 { color: var(--accent2); }
+  .card-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 4px;
+    color: var(--text);
+  }
+  .card-desc {
+    font-size: 13px;
+    color: var(--subtle);
+    line-height: 1.5;
+  }
+  .card-arrow {
+    font-size: 20px;
+    color: var(--subtle);
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .card:hover .card-arrow { color: var(--accent); transform: translateX(4px); }
+  .card.card2:hover .card-arrow { color: var(--accent2); }
+  .footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--subtle);
+    line-height: 1.6;
+  }
+  .footer strong { color: rgba(237,234,227,0.45); }
+  .line {
+    width: 40px; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    margin: 0 auto 20px;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="header">
+    <div class="badge">Área de Conteúdo · Alunos</div>
+    <h1>27/05/26 — Aula de Criativos e <em>Análise de Atendimento</em></h1>
+    <div class="line"></div>
+    <p>Selecione o material que deseja acessar abaixo.</p>
+  </div>
+  <div class="divider"><span>Materiais da Aula</span></div>
+  <div class="cards">
+    <a href="material-01.html" class="card">
+      <div class="card-icon i1">🖥️</div>
+      <div class="card-body">
+        <div class="card-tag t1">Material 01</div>
+        <div class="card-title">Apresentação Navegável</div>
+        <div class="card-desc">Interface interativa usada durante a aula ao vivo. Navegue pelos 12 blocos de conteúdo.</div>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+    <a href="material-02.html" class="card card2">
+      <div class="card-icon i2">📄</div>
+      <div class="card-body">
+        <div class="card-tag t2">Material 02</div>
+        <div class="card-title">Material de Apoio Completo</div>
+        <div class="card-desc">Documento de leitura com todo o conteúdo da aula: roteiros, scripts, ergonograma e checklist.</div>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+  </div>
+  <div class="footer">
+    <strong>© Lidiane Coser</strong> · Conteúdo exclusivo para alunos<br>
+    27/05/26 — Aula de Criativos e Análise de Atendimento
+  </div>
+</div>
+</body>
+</html>
